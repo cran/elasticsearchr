@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Alex Ioannides" />
+
+<meta name="date" content="2016-11-24" />
+
+<title>elasticsearchr: a Lightweight Elasticsearch Client for R</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">elasticsearchr: a Lightweight Elasticsearch Client for R</h1>
+<h4 class="author"><em>Alex Ioannides</em></h4>
+<h4 class="date"><em>2016-11-24</em></h4>
+
+
+
+<p><a href="https://www.elastic.co/products/elasticsearch" title="Elasticsearch">Elasticsearch</a> is a distributed <a href="https://en.wikipedia.org/wiki/NoSQL" title="What is NoSQL?">NoSQL</a> document store search-engine and <a href="https://www.elastic.co/blog/elasticsearch-as-a-column-store" title="Elasticsearch as a Column Store">column-oriented database</a>, whose <strong>fast</strong> (near real-time) reads and powerful aggregation engine make it an excellent choice as an ‘analytics database’ for R&amp;D, production-use or both. Installation is simple, it ships with default settings that allow it to work effectively out-of-the-box, and all interaction is made via a set of intuitive and extremely <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">well documented</a> <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" title="RESTful?">RESTful</a> APIs. I’ve been using it for two years now and I am evangelical.</p>
+<p>The <code>elasticsearchr</code> package implements a simple DSL for indexing, deleting, querying, sorting and aggregating data in Elasticsearch, from within R. The main purpose of this package is to remove the labour involved with assembling HTTP requests to Elasticsearch’s REST APIs and parsing the responses. Instead, users of this package need only send and receive data frames to Elasticsearch resources. Users needing richer functionality are encouraged to investigate the excellent <code>elastic</code> package from the good people at <a href="https://github.com/ropensci/elastic" title="rOpenSci">rOpenSci</a>.</p>
+<p>The latest (development) version of this package is available from <a href="https://github.com/AlexIoannides/elasticsearchr" title="Alex's GitHub repository">this GitHub repository</a>. To install it, make sure that you have the <code>devtools</code> package installed (this comes bundled with RStudio), and then execute the following on the R command line:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">&quot;alexioannides/elasticsearchr&quot;</span>)</code></pre></div>
+<div id="installing-elasticsearch" class="section level2">
+<h2>Installing Elasticsearch</h2>
+<p>Elasticsearch can be downloaded <a href="https://www.elastic.co/downloads/elasticsearch" title="Download">here</a>, where the instructions for installing and starting it can also be found. OS X users (such as myself) can also make use of <a href="http://brew.sh/" title="Homebrew for OS X">Homebrew</a> to install it with the command,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> install elasticsearch</code></pre></div>
+<p>And then start it by executing <code>$ elasticsearch</code> from within any Terminal window. Successful installation can be checked by navigating any web browser to <code>http://localhost:9200</code>, where the following message should greet you (give or take the cluster name that changes with every restart),</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span>
+  <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;Kraven the Hunter&quot;</span><span class="op">,</span>
+  <span class="st">&quot;cluster_name&quot;</span> <span class="op">:</span> <span class="st">&quot;elasticsearch&quot;</span><span class="op">,</span>
+  <span class="st">&quot;version&quot;</span> <span class="op">:</span> <span class="op">{</span>
+    <span class="st">&quot;number&quot;</span> <span class="op">:</span> <span class="st">&quot;2.3.5&quot;</span><span class="op">,</span>
+    <span class="st">&quot;build_hash&quot;</span> <span class="op">:</span> <span class="st">&quot;90f439ff60a3c0f497f91663701e64ccd01edbb4&quot;</span><span class="op">,</span>
+    <span class="st">&quot;build_timestamp&quot;</span> <span class="op">:</span> <span class="st">&quot;2016-07-27T10:36:52Z&quot;</span><span class="op">,</span>
+    <span class="st">&quot;build_snapshot&quot;</span> <span class="op">:</span> <span class="kw">false</span><span class="op">,</span>
+    <span class="st">&quot;lucene_version&quot;</span> <span class="op">:</span> <span class="st">&quot;5.5.0&quot;</span>
+  <span class="op">},</span>
+  <span class="st">&quot;tagline&quot;</span> <span class="op">:</span> <span class="st">&quot;You Know, for Search&quot;</span>
+<span class="op">}</span></code></pre></div>
+</div>
+<div id="elasticsearch-101" class="section level2">
+<h2>Elasticsearch 101</h2>
+<p>If you followed the installation steps above, you have just installed a single Elasticsearch ‘node’. When <strong>not</strong> testing on your laptop, Elasticsearch usually comes in clusters of nodes (usually there are at least 3). The easiest easy way to get access to a managed Elasticsearch cluster is by using the <a href="https://www.elastic.co/cloud/as-a-service" title="Elastic Cloud">Elastic Cloud</a> managed service provided by <a href="https://www.elastic.co" title="Elastic corp.">Elastic</a> (Amazon Web Services offer something similar too). For the rest of this brief tutorial I will assuming you’re running a single node on your laptop.</p>
+<p>In Elasticsearch a ‘row’ of data is stored as a ‘document’. A document is a <a href="https://en.wikipedia.org/wiki/JSON" title="JSON">JSON</a> object - for example, the first row of R’s <code>iris</code> dataset,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#   sepal_length sepal_width petal_length petal_width species</span>
+<span class="co"># 1          5.1         3.5          1.4         0.2  setosa</span></code></pre></div>
+<p>would be represented as follows using JSON,</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span>
+  <span class="st">&quot;sepal_length&quot;</span><span class="op">:</span> <span class="fl">5.1</span><span class="op">,</span>
+  <span class="st">&quot;sepal_width&quot;</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span>
+  <span class="st">&quot;petal_length&quot;</span><span class="op">:</span> <span class="fl">1.4</span><span class="op">,</span>
+  <span class="st">&quot;petal_width&quot;</span><span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span>
+  <span class="st">&quot;species&quot;</span><span class="op">:</span> <span class="st">&quot;setosa&quot;</span>
+<span class="op">}</span></code></pre></div>
+<p>Documents are classified into ‘types’ and stored in an ‘index’. In a crude analogy with traditional SQL databases that is often used, we would associate an index with a database instance and the document types as tables within that database. In practice this example is not accurate - it is better to think of all documents as residing in a single - possibly sparse - table (defined by the index), where the document types represent sub-sets of columns in the table. This is especially so as fields that occur in multiple document types (within the same index), must have the same data-type - for example, if <code>&quot;name&quot;</code> exists in document type <code>customer</code> as well as in document type <code>address</code>, then <code>&quot;name&quot;</code> will need to be a <code>string</code> in both.</p>
+<p>Each document is a ‘resource’ that has a Uniform Resource Locator (URL) associated with it. Elasticsearch URLs all have the following format: <code>http://your_cluster:9200/your_index/your_doc_type/your_doc_id</code>. For example, the above <code>iris</code> document could be living at <code>http://localhost:9200/iris/data/1</code>.</p>
+<p>Although Elasticsearch - like most NoSQL databases - is often referred to as being ‘schema free’, as we have already see this is not entirely correct. What is true, however, is that the schema - or ‘mapping’ as it’s called in Elasticsearch - does not <em>need</em> to be declared up-front (although you certainly can do this). Elasticsearch is more than capable of guessing the types of fields based on new data indexed for the first time. For more information on any of these basic concepts take a look <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html" title="Basic Concepts">here</a></p>
+</div>
+<div id="elasticsearchr-a-quick-start" class="section level2">
+<h2><code>elasticsearchr</code>: a Quick Start</h2>
+<p><code>elasticsearchr</code> is a <strong>lightweight</strong> client - by this I mean that it only aims to do ‘just enough’ work to make using Elasticsearch with R easy and intuitive. You will still need to read the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">Elasticsearch documentation</a> to understand how to compose queries and aggregations. What follows is a quick summary of what is possible.</p>
+<div id="resources" class="section level3">
+<h3>Resources</h3>
+<p>Elasticsearch resources, as defined by the URLs described above, are defined as <code>elastic</code> objects in <code>elasticsearchr</code>. For example,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">es &lt;-<span class="st"> </span><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>)</code></pre></div>
+<p>Refers to documents of types ‘data’ in the ‘iris’ index located on an Elasticsearch node on my laptop. Note that: - it is possible to leave the document type empty if you need to refer to all documents in an index; and, - <code>elastic</code> objects can be defined even if the underling resources have yet to be brought into existence.</p>
+</div>
+<div id="indexing-new-data" class="section level3">
+<h3>Indexing New Data</h3>
+<p>To index (insert) data from a data frame, use the <code>%index%</code> operator as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %index%<span class="st"> </span>iris</code></pre></div>
+<p>In this example, the <code>iris</code> dataset is indexed into the ‘iris’ index and given a document type called ‘data’. Note that I have not provided any document ids here. <strong>To explicitly specify document ids there must be a column in the data frame that is labelled <code>id</code></strong>, from which the document ids will be taken.</p>
+</div>
+<div id="deleting-data" class="section level3">
+<h3>Deleting Data</h3>
+<p>Documents can be deleted in three different ways using the <code>%delete%</code> operator. Firstly, an entire index (including the mapping information) can be erased by referencing just the index in the resource - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) %delete%<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<p>Alternatively, documents can be deleted on a type-by-type basis leaving the index and it’s mappings untouched, by referencing both the index and the document type as the resource - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %delete%<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<p>Finally, specific documents can be deleted by referencing their ids directly - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %delete%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>)</code></pre></div>
+</div>
+<div id="queries" class="section level3">
+<h3>Queries</h3>
+<p>Any type of query that Elasticsearch makes available can be defined in a <code>query</code> object using the native Elasticsearch JSON syntax - e.g. to match every document we could use the <code>match_all</code> query,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for_everything &lt;-<span class="st"> </span><span class="kw">query</span>(<span class="st">'{</span>
+<span class="st">  &quot;match_all&quot;: {}</span>
+<span class="st">}'</span>)</code></pre></div>
+<p>To execute this query we use the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>for_everything
+
+<span class="co">#     sepal_length sepal_width petal_length petal_width    species</span>
+<span class="co"># 1            4.9         3.0          1.4         0.2     setosa</span>
+<span class="co"># 2            4.9         3.1          1.5         0.1     setosa</span>
+<span class="co"># 3            5.8         4.0          1.2         0.2     setosa</span>
+<span class="co"># 4            5.4         3.9          1.3         0.4     setosa</span>
+<span class="co"># 5            5.1         3.5          1.4         0.3     setosa</span>
+<span class="co"># 6            5.4         3.4          1.7         0.2     setosa</span>
+<span class="co"># ...</span></code></pre></div>
+</div>
+<div id="sorting-query-results" class="section level3">
+<h3>Sorting Query Results</h3>
+<p>Query results can be sorted on multiple fields by defining a <code>sort</code> object using the same Elasticsearch JSON syntax - e.g. to sort by <code>sepal_width</code> in ascending order the required <code>sort</code> object would be defined as,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_sepal_width &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="st">'{&quot;sepal_width&quot;: {&quot;order&quot;: &quot;asc&quot;}}'</span>)</code></pre></div>
+<p>This is then added to a <code>query</code> object whose results we want sorted and executed using the <code>%search%</code> operator as before - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>(for_everything +<span class="st"> </span>by_sepal_width)
+
+<span class="co">#   sepal_length sepal_width petal_length petal_width    species</span>
+<span class="co"># 1          5.0         2.0          3.5         1.0 versicolor</span>
+<span class="co"># 2          6.0         2.2          5.0         1.5  virginica</span>
+<span class="co"># 3          6.0         2.2          4.0         1.0 versicolor</span>
+<span class="co"># 4          6.2         2.2          4.5         1.5 versicolor</span>
+<span class="co"># 5          4.5         2.3          1.3         0.3     setosa</span>
+<span class="co"># 6          6.3         2.3          4.4         1.3 versicolor</span>
+<span class="co"># ...</span></code></pre></div>
+</div>
+<div id="aggregations" class="section level3">
+<h3>Aggregations</h3>
+<p>Similarly, any type of aggregation that Elasticsearch makes available can be defined in an <code>aggs</code> object - e.g. to compute the average <code>sepal_width</code> per-species of flower we would specify the following aggregation,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">avg_sepal_width &lt;-<span class="st"> </span><span class="kw">aggs</span>(<span class="st">'{</span>
+<span class="st">  &quot;avg_sepal_width_per_species&quot;: {</span>
+<span class="st">    &quot;terms&quot;: {</span>
+<span class="st">      &quot;field&quot;: &quot;species&quot;,</span>
+<span class="st">      &quot;size&quot;: 3</span>
+<span class="st">    },</span>
+<span class="st">    &quot;aggs&quot;: {</span>
+<span class="st">      &quot;avg_sepal_width&quot;: {</span>
+<span class="st">        &quot;avg&quot;: {</span>
+<span class="st">          &quot;field&quot;: &quot;sepal_width&quot;</span>
+<span class="st">        }</span>
+<span class="st">      }</span>
+<span class="st">    }</span>
+<span class="st">  }</span>
+<span class="st">}'</span>)</code></pre></div>
+<p><em>(Elasticsearch 5.x users please note that when using the out-of-the-box mappings the above aggregation requires that <code>&quot;field&quot;: &quot;species&quot;</code> be changed to <code>&quot;field&quot;: &quot;species.keyword&quot;</code> - see <a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.0/breaking_50_mapping_changes.html" title="Text fields in Elasticsearch 5.x">here</a> for more information as to why)</em></p>
+<p>This aggregation is also executed via the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>avg_sepal_width
+
+<span class="co">#          key doc_count avg_sepal_width.value</span>
+<span class="co"># 1     setosa        50                 3.428</span>
+<span class="co"># 2 versicolor        50                 2.770</span>
+<span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
+<p>Queries and aggregations can be combined such that the aggregations are computed on the results of the query. For example, to execute the combination of the above query and aggregation, we would execute,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>(for_everything +<span class="st"> </span>avg_sepal_width)
+
+<span class="co">#          key doc_count avg_sepal_width.value</span>
+<span class="co"># 1     setosa        50                 3.428</span>
+<span class="co"># 2 versicolor        50                 2.770</span>
+<span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
+<p>where the combination yields,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(for_everything +<span class="st"> </span>avg_sepal_width)
+
+<span class="co"># {</span>
+<span class="co">#     &quot;size&quot;: 0,</span>
+<span class="co">#     &quot;query&quot;: {</span>
+<span class="co">#         &quot;match_all&quot;: {</span>
+<span class="co">#</span>
+<span class="co">#         }</span>
+<span class="co">#     },</span>
+<span class="co">#     &quot;aggs&quot;: {</span>
+<span class="co">#         &quot;avg_sepal_width_per_species&quot;: {</span>
+<span class="co">#             &quot;terms&quot;: {</span>
+<span class="co">#                 &quot;field&quot;: &quot;species&quot;,</span>
+<span class="co">#                 &quot;size&quot;: 0</span>
+<span class="co">#             },</span>
+<span class="co">#             &quot;aggs&quot;: {</span>
+<span class="co">#                 &quot;avg_sepal_width&quot;: {</span>
+<span class="co">#                     &quot;avg&quot;: {</span>
+<span class="co">#                         &quot;field&quot;: &quot;sepal_width&quot;</span>
+<span class="co">#                     }</span>
+<span class="co">#                 }</span>
+<span class="co">#             }</span>
+<span class="co">#         }</span>
+<span class="co">#     }</span>
+<span class="co"># }</span></code></pre></div>
+<p>For comprehensive coverage of all query and aggregations types please refer to the rather excellent <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">official documentation</a> (newcomers to Elasticsearch are advised to start with the ‘Query String’ query).</p>
+</div>
+<div id="mappings" class="section level3">
+<h3>Mappings</h3>
+<p>Finally, I have included the ability to create an empty index with a custom mapping, using the <code>%create%</code> operator - e.g.,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) %create%<span class="st"> </span><span class="kw">mapping_default_simple</span>()</code></pre></div>
+<p>Where in this instance <code>mapping_default_simple()</code> is a default mapping that I have shipped with <code>elasticsearchr</code>. It switches-off the text analyser for all fields of type ‘string’ (i.e. switches off free text search), allows all text search to work with case-insensitive lower-case terms, and maps any field with the name ‘timestamp’ to type ‘date’, so long as it has the appropriate string or long format.</p>
+</div>
+</div>
+<div id="forthcoming-attractions" class="section level2">
+<h2>Forthcoming Attractions</h2>
+<p>I do not have a grand vision for <code>elasticsearchr</code> - I want to keep it a lightweight client that requires knowledge of Elasticsearch - but I would like to add the ability to compose major query and aggregation types, without having to type-out lots of JSON, and to be able to retrieve simple information like the names of all indices in a cluster, and all the document types within an index, etc. Future development will likely be focused in these areas.</p>
+</div>
+<div id="acknowledgements" class="section level2">
+<h2>Acknowledgements</h2>
+<p>A big thank you to Hadley Wickham and Jeroen Ooms, the authors of the <code>httr</code> and <code>jsonlite</code> packages that <code>elasticsearchr</code> leans upon <em>heavily</em>.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
