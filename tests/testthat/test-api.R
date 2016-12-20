@@ -91,7 +91,7 @@ test_that('sort objects have the correct classes assigned to them', {
   by_sepal_width <- '{"sepal_width": {"order": "asc"}}'
 
   # act
-  es_sort <- sort(by_sepal_width)
+  es_sort <- sort_on(by_sepal_width)
 
   # assert
   expect_identical(class(es_sort), c("elastic_sort", "elastic_api", "elastic"))
@@ -103,7 +103,7 @@ test_that('sort objects will not accept invalid JSON', {
   bad_sort_json <- '{"sepal_width": {"order": "asc"}'
 
   # act & assert
-  expect_error(sort(bad_sort_json))
+  expect_error(sort_on(bad_sort_json))
 })
 
 
@@ -112,7 +112,7 @@ test_that('sort objects generate the correct search API call', {
   by_sepal_width <- '{"sepal_width": {"order": "asc"}}'
 
   # act
-  es_sort <- sort(by_sepal_width)
+  es_sort <- sort_on(by_sepal_width)
 
   # assert
   expect_identical(es_sort$api_call, '"sort":{"sepal_width": {"order": "asc"}}')
@@ -163,50 +163,29 @@ test_that('aggs objects generate the correct search API call', {
 
 
 # ---- operators ----------------------------------------------------------------------------------
-test_that('%index% correctly indexes a data frame', {
+test_that('%index% correctly indexes a large (>10mb single chunk) data frame', {
   # skip if on CRAN or Travis
   skip_on_travis()
   skip_on_cran()
 
   # arrange
   delete_test_data()
+  iris_data_bulk <- data.frame(do.call(cbind, lapply(1:40, FUN = function(x) iris_data)))
+  iris_data_bulk <- do.call(rbind, lapply(1:50, FUN = function(x) iris_data_bulk))
+  iris_data_bulk['sort_key'] <- 1:nrow(iris_data_bulk)
+  row.names(iris_data_bulk) <- 1:nrow(iris_data_bulk)
+  colnames(iris_data_bulk) <- cleaned_field_names(colnames(iris_data_bulk))
 
   # act
-  elastic("http://localhost:9200", "iris", "data") %index% iris_data
-  wait_finish_indexing("http://localhost:9200/iris/data/_search?size=150&q=*", 150)
-  query_response <- httr::POST("http://localhost:9200/iris/data/_search?size=150&q=*")
+  elastic("http://localhost:9200", "iris", "data") %index% iris_data_bulk
+  wait_finish_indexing("http://localhost:9200/iris/data/_search?size=7500&q=*", nrow(iris_data_bulk))
+  query_response <- httr::POST("http://localhost:9200/iris/data/_search?size=7500&q=*")
   query_results <- jsonlite::fromJSON(httr::content(query_response, as = 'text'))$hits$hits$`_source`
   query_results <- query_results[order(query_results$sort_key), ]
   row.names(query_results) <- query_results$sort_key
 
   # assert
-  expect_equal(iris_data, query_results)
-  delete_test_data()
-})
-
-
-test_that('%index% correctly detects and assigns document ids', {
-  # skip if on CRAN or Travis
-  skip_on_travis()
-  skip_on_cran()
-
-  # arrange
-  delete_test_data()
-  iris_data_ids <- iris_data
-  colnames(iris_data_ids) <- c(colnames(iris_data_ids)[1:5], "id")
-
-  # act
-  elastic("http://localhost:9200", "iris", "data") %index% iris_data_ids
-  wait_finish_indexing("http://localhost:9200/iris/data/_search?size=150&q=*", 150)
-  query_response <- httr::GET("http://localhost:9200/iris/data/150")
-  query_results <- data.frame(
-    jsonlite::fromJSON(httr::content(query_response, as = 'text'))$`_source`,
-    stringsAsFactors = FALSE
-  )
-  row.names(query_results) <- query_results$id
-
-  # assert
-  expect_equal(iris_data_ids[150,], query_results)
+  expect_equal(iris_data_bulk, query_results)
   delete_test_data()
 })
 
@@ -329,7 +308,7 @@ test_that('we can query using the %search% operator on a subset of all documents
   load_test_data()
   everything <- '{"match_all": {}}'
   by_key <- '{"sort_key": {"order": "asc"}}'
-  es_query <- query(everything, size = 10) + sort(by_key)
+  es_query <- query(everything, size = 10) + sort_on(by_key)
 
   # act
   query_results <- elastic("http://localhost:9200", "iris", "data") %search% es_query
@@ -377,7 +356,7 @@ test_that('we can query + sort using the %search% operator', {
   by_sepal_width <- '[{"sepal_width": {"order": "asc"}}, {"sort_key": {"order": "asc"}}]'
 
   es_query <- query(everything)
-  es_sort <- sort(by_sepal_width)
+  es_sort <- sort_on(by_sepal_width)
   es_query_sorted <- es_query + es_sort
 
   # act
@@ -427,7 +406,7 @@ test_that('adding a sort object to a query object results in a query object', {
 
   # act
   es_query <- query(everything)
-  es_sort <- sort(by_sepal_width)
+  es_sort <- sort_on(by_sepal_width)
   es_query_sorted <- es_query + es_sort
 
   # assert
@@ -442,7 +421,7 @@ test_that('adding a sort object to a query object generates the correct search A
 
   # act
   es_query <- query(everything)
-  es_sort <- sort(by_sepal_width)
+  es_sort <- sort_on(by_sepal_width)
   es_query_sorted <- es_query + es_sort
 
   # assert

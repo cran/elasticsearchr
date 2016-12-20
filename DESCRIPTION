@@ -1,9 +1,9 @@
 Package: elasticsearchr
 Type: Package
-Version: 0.1.0
+Version: 0.2.0
 Title: A Lightweight Interface for Interacting with Elasticsearch from
         R
-Date: 2016-11-24
+Date: 2016-12-20
 Author: Alex Ioannides
 Maintainer: Alex Ioannides <alex.ioannides@yahoo.co.uk>
 Description: A lightweight R interface to 'Elasticsearch' - a NoSQL search-engine and 
@@ -19,6 +19,6 @@ Suggests: knitr, testthat, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-11-24 13:15:39 UTC; alexioannides
+Packaged: 2016-12-20 00:29:35 UTC; alexioannides
 Repository: CRAN
-Date/Publication: 2016-11-24 16:39:16
+Date/Publication: 2016-12-20 01:53:36

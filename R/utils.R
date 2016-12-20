@@ -33,7 +33,7 @@
 #' # Error in valid_url(url) : invalid URL to Elasticsearch cluster
 #' }
 valid_url <- function(url) {
-  if (grepl("http://", url) & grepl(":[0-9][0-9][0-9][0-9]", url) & !endsWith(url, "/")) {
+  if (grepl("http://", url) & grepl(":[0-9][0-9][0-9][0-9]", url) & !(substr(url, nchar(url), nchar(url)) == "/")) {
     return(TRUE)
   } else {
     stop("invalid URL to Elasticsearch cluster")
@@ -216,6 +216,54 @@ create_bulk_delete_file <- function(metadata) {
 }
 
 
+#' Index data frame with Elasticsearch Bulk API
+#'
+#' Helper function to orchestrate the assembly of the Bulk API upload file, http request to
+#' Elasticsearch and handling any subsequent respose errors. It's primary purpose is to be called
+#' repeatedly on 'chunks' of a data frame that is too bid to be indexed with a single call to the
+#' Bulk API (and hence the split into smaller more manageable chunks).
+#'
+#' @param rescource An \code{elastic_rescource} object that contains the information on the
+#' Elasticsearch cluster, index and document type, where the indexed data will reside. If this does
+#' not already exist, it will be created automatically.
+#' @param df data.frame whose rows will be indexed as documents in the Elasticsearch cluster.
+#' @return NULL
+#'
+#' @examples
+#' \dontrun{
+#' rescource <- elastic("http://localhost:9200", "iris", "data")
+#' index_bulk_dataframe(rescource, iris)
+#' }
+index_bulk_dataframe <- function(rescource, df) {
+  has_ids <- "id" %in% colnames(df)
+  num_docs <- nrow(df)
+
+  if (has_ids) {
+    metadata <- create_metadata("index", rescource$index, rescource$doc_type, df$id)
+  } else {
+    metadata <- create_metadata("index", rescource$index, rescource$doc_type, n = num_docs)
+  }
+
+  bulk_data_file <- create_bulk_upload_file(metadata, df)
+  response <- httr::PUT(url = rescource$cluster_url,
+                        path = "/_bulk",
+                        body = httr::upload_file(bulk_data_file))
+
+  file.remove(bulk_data_file)
+
+  if (httr::status_code(response) == 200 & !httr::content(response)$errors) {
+    message("...", appendLF = FALSE)
+  } else if (httr::content(response)$errors) {
+    messages <- httr::content(response)$items
+    warning(jsonlite::prettify(httr::content(response, as = "text")))
+  } else {
+    check_http_code_throw_error(response)
+  }
+
+  NULL
+}
+
+
 #' Execute query with from-size search API.
 #'
 #' The from-size search API allows a maximum of 10,000 search results (the maximum 'size') to be
@@ -305,7 +353,7 @@ scroll_search <- function(rescource, api_call_payload, extract_function = extrac
   scroll_search_url <- paste0(rescource$cluster_url, "/_search/scroll")
   scroll_results <- list()
 
-  initial_scroll_search_url <- paste0(rescource$search_url, "?scroll=1m")
+  initial_scroll_search_url <- paste0(rescource$search_url, "?size=10000&scroll=1m")
   initial_response <- httr::POST(initial_scroll_search_url, body = api_call_payload)
   check_http_code_throw_error(initial_response)
 
@@ -314,7 +362,7 @@ scroll_search <- function(rescource, api_call_payload, extract_function = extrac
   has_next <- TRUE
   n <- 2
   while (has_next) {
-    cat("...")
+    message("...", appendLF = FALSE)
     next_api_payload <- paste0('{"scroll": "1m", "scroll_id": "', next_scroll_id, '"}')
     next_response <- httr::POST(scroll_search_url, body = next_api_payload)
     check_http_code_throw_error(next_response)
