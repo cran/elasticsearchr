@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Ioannides" />
 
-<meta name="date" content="2016-12-20" />
+<meta name="date" content="2018-01-02" />
 
 <title>elasticsearchr: a Lightweight Elasticsearch Client for R</title>
 
@@ -70,18 +70,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">elasticsearchr: a Lightweight Elasticsearch Client for R</h1>
 <h4 class="author"><em>Alex Ioannides</em></h4>
-<h4 class="date"><em>2016-12-20</em></h4>
+<h4 class="date"><em>2018-01-02</em></h4>
 
 
 
 <p><a href="https://www.elastic.co/products/elasticsearch" title="Elasticsearch">Elasticsearch</a> is a distributed <a href="https://en.wikipedia.org/wiki/NoSQL" title="What is NoSQL?">NoSQL</a> document store search-engine and <a href="https://www.elastic.co/blog/elasticsearch-as-a-column-store" title="Elasticsearch as a Column Store">column-oriented database</a>, whose <strong>fast</strong> (near real-time) reads and powerful aggregation engine make it an excellent choice as an ‘analytics database’ for R&amp;D, production-use or both. Installation is simple, it ships with sensible default settings that allow it to work effectively out-of-the-box, and all interaction is made via a set of intuitive and extremely <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">well documented</a> <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" title="RESTful?">RESTful</a> APIs. I’ve been using it for two years now and I am evangelical.</p>
 <p>The <code>elasticsearchr</code> package implements a simple Domain-Specific Language (DSL) for indexing, deleting, querying, sorting and aggregating data in Elasticsearch, from within R. The main purpose of this package is to remove the labour involved with assembling HTTP requests to Elasticsearch’s REST APIs and processing the responses. Instead, users of this package need only send and receive data frames to Elasticsearch resources. Users needing richer functionality are encouraged to investigate the excellent <code>elastic</code> package from the good people at <a href="https://github.com/ropensci/elastic" title="rOpenSci">rOpenSci</a>.</p>
 <p>This package is available on <a href="https://cran.r-project.org/package=elasticsearchr" title="elasticsearchr on CRAN">CRAN</a> or from <a href="https://github.com/AlexIoannides/elasticsearchr" title="Alex's GitHub repository">this GitHub repository</a>. To install the latest development version from GitHub, make sure that you have the <code>devtools</code> package installed (this comes bundled with RStudio), and then execute the following on the R command line:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">&quot;alexioannides/elasticsearchr&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;alexioannides/elasticsearchr&quot;</span>)</code></pre></div>
 <div id="installing-elasticsearch" class="section level2">
 <h2>Installing Elasticsearch</h2>
 <p>Elasticsearch can be downloaded <a href="https://www.elastic.co/downloads/elasticsearch" title="Download">here</a>, where the instructions for installing and starting it can also be found. OS X users (such as myself) can also make use of <a href="http://brew.sh/" title="Homebrew for OS X">Homebrew</a> to install it with the command,</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> install elasticsearch</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">brew</span> install elasticsearch</code></pre></div>
 <p>And then start it by executing <code>$ elasticsearch</code> from within any Terminal window. Successful installation and start-up can be checked by navigating any web browser to <code>http://localhost:9200</code>, where the following message should greet you (give or take the cluster name that changes with every restart),</p>
 <div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span>
   <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;Kraven the Hunter&quot;</span><span class="op">,</span>
@@ -127,17 +127,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="indexing-new-data" class="section level3">
 <h3>Indexing New Data</h3>
 <p>To index (insert) data from a data frame, use the <code>%index%</code> operator as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %index%<span class="st"> </span>iris</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%index%</span><span class="st"> </span>iris</code></pre></div>
 <p>In this example, the <code>iris</code> dataset is indexed into the ‘iris’ index and given a document type called ‘data’. Note that I have not provided any document ids here. <strong>To explicitly specify document ids there must be a column in the data frame that is labelled <code>id</code></strong>, from which the document ids will be taken.</p>
 </div>
 <div id="deleting-data" class="section level3">
 <h3>Deleting Data</h3>
 <p>Documents can be deleted in three different ways using the <code>%delete%</code> operator. Firstly, an entire index (including the mapping information) can be erased by referencing just the index in the resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) %delete%<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
 <p>Alternatively, documents can be deleted on a type-by-type basis leaving the index and it’s mappings untouched, by referencing both the index and the document type as the resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %delete%<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
 <p>Finally, specific documents can be deleted by referencing their ids directly - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %delete%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>)</code></pre></div>
 </div>
 <div id="queries" class="section level3">
 <h3>Queries</h3>
@@ -146,7 +146,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  &quot;match_all&quot;: {}</span>
 <span class="st">}'</span>)</code></pre></div>
 <p>To execute this query we use the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>for_everything
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>for_everything
 
 <span class="co">#     sepal_length sepal_width petal_length petal_width    species</span>
 <span class="co"># 1            4.9         3.0          1.4         0.2     setosa</span>
@@ -162,7 +162,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Query results can be sorted on multiple fields by defining a <code>sort</code> object using the same Elasticsearch JSON syntax - e.g. to sort by <code>sepal_width</code> in ascending order the required <code>sort</code> object would be defined as,</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_sepal_width &lt;-<span class="st"> </span><span class="kw">sort_on</span>(<span class="st">'{&quot;sepal_width&quot;: {&quot;order&quot;: &quot;asc&quot;}}'</span>)</code></pre></div>
 <p>This is then added to a <code>query</code> object whose results we want sorted and executed using the <code>%search%</code> operator as before - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>(for_everything +<span class="st"> </span>by_sepal_width)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>by_sepal_width)
 
 <span class="co">#   sepal_length sepal_width petal_length petal_width    species</span>
 <span class="co"># 1          5.0         2.0          3.5         1.0 versicolor</span>
@@ -193,21 +193,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">}'</span>)</code></pre></div>
 <p><em>(Elasticsearch 5.x users please note that when using the out-of-the-box mappings the above aggregation requires that <code>&quot;field&quot;: &quot;species&quot;</code> be changed to <code>&quot;field&quot;: &quot;species.keyword&quot;</code> - see <a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.0/breaking_50_mapping_changes.html" title="Text fields in Elasticsearch 5.x">here</a> for more information as to why)</em></p>
 <p>This aggregation is also executed via the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>avg_sepal_width
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>avg_sepal_width
 
 <span class="co">#          key doc_count avg_sepal_width.value</span>
 <span class="co"># 1     setosa        50                 3.428</span>
 <span class="co"># 2 versicolor        50                 2.770</span>
 <span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
 <p>Queries and aggregations can be combined such that the aggregations are computed on the results of the query. For example, to execute the combination of the above query and aggregation, we would execute,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) %search%<span class="st"> </span>(for_everything +<span class="st"> </span>avg_sepal_width)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)
 
 <span class="co">#          key doc_count avg_sepal_width.value</span>
 <span class="co"># 1     setosa        50                 3.428</span>
 <span class="co"># 2 versicolor        50                 2.770</span>
 <span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
 <p>where the combination yields,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(for_everything +<span class="st"> </span>avg_sepal_width)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)
 
 <span class="co"># {</span>
 <span class="co">#     &quot;size&quot;: 0,</span>
@@ -237,7 +237,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="mappings" class="section level3">
 <h3>Mappings</h3>
 <p>Finally, I have included the ability to create an empty index with a custom mapping, using the <code>%create%</code> operator - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) %create%<span class="st"> </span><span class="kw">mapping_default_simple</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%create%</span><span class="st"> </span><span class="kw">mapping_default_simple</span>()</code></pre></div>
 <p>Where in this instance <code>mapping_default_simple()</code> is a default mapping that I have shipped with <code>elasticsearchr</code>. It switches-off the text analyser for all fields of type ‘string’ (i.e. switches off free text search), allows all text search to work with case-insensitive lower-case terms, and maps any field with the name ‘timestamp’ to type ‘date’, so long as it has the appropriate string or long format.</p>
 </div>
 </div>
@@ -257,7 +257,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
