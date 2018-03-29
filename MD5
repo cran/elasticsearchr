@@ -1,14 +1,14 @@
-d255cb31be97eb35448cdb914d9e05cb *DESCRIPTION
+8021d24da15ae394ceea121216bfbb19 *DESCRIPTION
 0ffb471df09c48936ac2edcef6ce7ca9 *NAMESPACE
-54a51d80df3d0cb10f0a275d159d7f06 *NEWS.md
+4c7a8092e165fc3448ca0e91cd8bdab6 *NEWS.md
 d275d0c8412451c1a619b5aa076b53af *R/api.R
 39bc3d3fcbaba64da9e88b6b3874acb4 *R/elasticsearchr.R
 e07ca2edfb2a3b7c58956ebd2a3e078c *R/mappings.R
-9fb642ed108e20606e40205ada7e4e03 *R/utils.R
+33aa52044c0efa96437360f54c03bb4e *R/utils.R
 748f37f6d2169441b307f7495685b20d *README.md
 14ad31ada9876e50631db7d74163f887 *build/vignette.rds
 6131d23001f5650162b2dce98c842c30 *inst/doc/quick_start.Rmd
-0d051735d253a8230a6873b209d1a3fc *inst/doc/quick_start.html
+528344a04131368aece21e59401bc1f4 *inst/doc/quick_start.html
 6be79ca9844d6796d6f88393171793a2 *man/aggs.Rd
 96a3fc791e73a081e03e069eaeb474e1 *man/check_http_code_throw_error.Rd
 026a6d85f1def6c2f86f8c0763ac915a *man/cleaned_field_names.Rd
@@ -37,5 +37,5 @@ e0a4766750019c73db0dcbf9e173e43f *man/valid_url.Rd
 f69f44d1cf24cb22edf7ab35c4e71d9c *tests/testthat.R
 57aae2ccfbb2c5a70b894a74173c55b2 *tests/testthat/helper-elasticsearch_test_data.R
 567681807e68b3f4795c3b21d086b253 *tests/testthat/test-api.R
-e10181066ba4dbb5729db0507f69dc5f *tests/testthat/test-utils.R
+1b9f323acc81f14cd5075a73e3a76669 *tests/testthat/test-utils.R
 6131d23001f5650162b2dce98c842c30 *vignettes/quick_start.Rmd
