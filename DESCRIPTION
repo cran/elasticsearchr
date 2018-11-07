@@ -1,9 +1,9 @@
 Package: elasticsearchr
 Type: Package
-Version: 0.2.2
+Version: 0.2.3
 Title: A Lightweight Interface for Interacting with Elasticsearch from
         R
-Date: 2018-03-29
+Date: 2018-11-07
 Author: Alex Ioannides
 Maintainer: Alex Ioannides <alex.ioannides@yahoo.co.uk>
 Description: A lightweight R interface to 'Elasticsearch' - a NoSQL search-engine and 
@@ -17,8 +17,8 @@ LazyData: TRUE
 Imports: httr, jsonlite
 Suggests: knitr, testthat, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2018-03-29 09:40:13 UTC; alexioannides
+Packaged: 2018-11-07 16:16:16 UTC; alexioannides
 Repository: CRAN
-Date/Publication: 2018-03-29 10:24:19 UTC
+Date/Publication: 2018-11-07 16:30:03 UTC
