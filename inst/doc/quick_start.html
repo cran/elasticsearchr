@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alex Ioannides" />
 
-<meta name="date" content="2019-02-22" />
+<meta name="date" content="2019-07-30" />
 
 <title>elasticsearchr: a Lightweight Elasticsearch Client for R</title>
 
@@ -20,46 +20,254 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 </head>
 
@@ -70,53 +278,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">elasticsearchr: a Lightweight Elasticsearch Client for R</h1>
 <h4 class="author"><em>Alex Ioannides</em></h4>
-<h4 class="date"><em>2019-02-22</em></h4>
+<h4 class="date"><em>2019-07-30</em></h4>
 
 
 
 <p><a href="https://www.elastic.co/products/elasticsearch" title="Elasticsearch">Elasticsearch</a> is a distributed <a href="https://en.wikipedia.org/wiki/NoSQL" title="What is NoSQL?">NoSQL</a> document store search-engine and <a href="https://www.elastic.co/blog/elasticsearch-as-a-column-store" title="Elasticsearch as a Column Store">column-oriented database</a>, whose <strong>fast</strong> (near real-time) reads and powerful aggregation engine make it an excellent choice as an ‘analytics database’ for R&amp;D, production-use or both. Installation is simple, it ships with sensible default settings that allow it to work effectively out-of-the-box, and all interaction is made via a set of intuitive and extremely <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">well documented</a> <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" title="RESTful?">RESTful</a> APIs. I’ve been using it for two years now and I am evangelical.</p>
 <p>The <code>elasticsearchr</code> package implements a simple Domain-Specific Language (DSL) for indexing, deleting, querying, sorting and aggregating data in Elasticsearch, from within R. The main purpose of this package is to remove the labour involved with assembling HTTP requests to Elasticsearch’s REST APIs and processing the responses. Instead, users of this package need only send and receive data frames to Elasticsearch resources. Users needing richer functionality are encouraged to investigate the excellent <code>elastic</code> package from the good people at <a href="https://github.com/ropensci/elastic" title="rOpenSci">rOpenSci</a>.</p>
 <p>This package is available on <a href="https://cran.r-project.org/package=elasticsearchr" title="elasticsearchr on CRAN">CRAN</a> or from <a href="https://github.com/AlexIoannides/elasticsearchr" title="Alex's GitHub repository">this GitHub repository</a>. To install the latest development version from GitHub, make sure that you have the <code>devtools</code> package installed (this comes bundled with RStudio), and then execute the following on the R command line:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;alexioannides/elasticsearchr&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;alexioannides/elasticsearchr&quot;</span>)</a></code></pre></div>
 <div id="installing-elasticsearch" class="section level2">
 <h2>Installing Elasticsearch</h2>
 <p>Elasticsearch can be downloaded <a href="https://www.elastic.co/downloads/elasticsearch" title="Download">here</a>, where the instructions for installing and starting it can also be found. OS X users (such as myself) can also make use of <a href="http://brew.sh/" title="Homebrew for OS X">Homebrew</a> to install it with the command,</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">brew</span> install elasticsearch</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">$ <span class="ex">brew</span> install elasticsearch</a></code></pre></div>
 <p>And then start it by executing <code>$ elasticsearch</code> from within any Terminal window. Successful installation and start-up can be checked by navigating any web browser to <code>http://localhost:9200</code>, where the following message should greet you (give or take the cluster name that changes with every restart),</p>
-<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span>
-  <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;RF6t1Gr&quot;</span><span class="op">,</span>
-  <span class="st">&quot;cluster_name&quot;</span> <span class="op">:</span> <span class="st">&quot;elasticsearch&quot;</span><span class="op">,</span>
-  <span class="st">&quot;cluster_uuid&quot;</span> <span class="op">:</span> <span class="st">&quot;pag7iIG-TK271EahH0B0yA&quot;</span><span class="op">,</span>
-  <span class="st">&quot;version&quot;</span> <span class="op">:</span> <span class="op">{</span>
-    <span class="st">&quot;number&quot;</span> <span class="op">:</span> <span class="st">&quot;6.1.1&quot;</span><span class="op">,</span>
-    <span class="st">&quot;build_hash&quot;</span> <span class="op">:</span> <span class="st">&quot;bd92e7f&quot;</span><span class="op">,</span>
-    <span class="st">&quot;build_date&quot;</span> <span class="op">:</span> <span class="st">&quot;2017-12-17T20:23:25.338Z&quot;</span><span class="op">,</span>
-    <span class="st">&quot;build_snapshot&quot;</span> <span class="op">:</span> <span class="kw">false</span><span class="op">,</span>
-    <span class="st">&quot;lucene_version&quot;</span> <span class="op">:</span> <span class="st">&quot;7.1.0&quot;</span><span class="op">,</span>
-    <span class="st">&quot;minimum_wire_compatibility_version&quot;</span> <span class="op">:</span> <span class="st">&quot;5.6.0&quot;</span><span class="op">,</span>
-    <span class="st">&quot;minimum_index_compatibility_version&quot;</span> <span class="op">:</span> <span class="st">&quot;5.0.0&quot;</span>
-  <span class="op">},</span>
-  <span class="st">&quot;tagline&quot;</span> <span class="op">:</span> <span class="st">&quot;You Know, for Search&quot;</span>
-<span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="op">{</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;RF6t1Gr&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="st">&quot;cluster_name&quot;</span> <span class="op">:</span> <span class="st">&quot;elasticsearch&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="st">&quot;cluster_uuid&quot;</span> <span class="op">:</span> <span class="st">&quot;pag7iIG-TK271EahH0B0yA&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="st">&quot;version&quot;</span> <span class="op">:</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">    <span class="st">&quot;number&quot;</span> <span class="op">:</span> <span class="st">&quot;6.1.1&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="st">&quot;build_hash&quot;</span> <span class="op">:</span> <span class="st">&quot;bd92e7f&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="st">&quot;build_date&quot;</span> <span class="op">:</span> <span class="st">&quot;2017-12-17T20:23:25.338Z&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="st">&quot;build_snapshot&quot;</span> <span class="op">:</span> <span class="kw">false</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="st">&quot;lucene_version&quot;</span> <span class="op">:</span> <span class="st">&quot;7.1.0&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">    <span class="st">&quot;minimum_wire_compatibility_version&quot;</span> <span class="op">:</span> <span class="st">&quot;5.6.0&quot;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="st">&quot;minimum_index_compatibility_version&quot;</span> <span class="op">:</span> <span class="st">&quot;5.0.0&quot;</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">  <span class="op">},</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">  <span class="st">&quot;tagline&quot;</span> <span class="op">:</span> <span class="st">&quot;You Know, for Search&quot;</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="op">}</span></a></code></pre></div>
 </div>
 <div id="elasticsearch-101" class="section level2">
 <h2>Elasticsearch 101</h2>
 <p>If you followed the installation steps above, you have just installed a single Elasticsearch ‘node’. When <strong>not</strong> testing on your laptop, Elasticsearch usually comes in clusters of nodes (usually there are at least 3). The easiest easy way to get access to a managed Elasticsearch cluster is by using the <a href="https://www.elastic.co/cloud/as-a-service" title="Elastic Cloud">Elastic Cloud</a> managed service provided by <a href="https://www.elastic.co" title="Elastic corp.">Elastic</a> (note that Amazon Web Services offer something similar too). For the rest of this brief tutorial I will assuming you’re running a single node on your laptop (a great way of working with data that is too big for memory).</p>
 <p>In Elasticsearch a ‘row’ of data is stored as a ‘document’. A document is a <a href="https://en.wikipedia.org/wiki/JSON" title="JSON">JSON</a> object - for example, the first row of R’s <code>iris</code> dataset,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#   sepal_length sepal_width petal_length petal_width species</span>
-<span class="co"># 1          5.1         3.5          1.4         0.2  setosa</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#   sepal_length sepal_width petal_length petal_width species</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># 1          5.1         3.5          1.4         0.2  setosa</span></a></code></pre></div>
 <p>would be represented as follows using JSON,</p>
-<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span>
-  <span class="st">&quot;sepal_length&quot;</span><span class="op">:</span> <span class="fl">5.1</span><span class="op">,</span>
-  <span class="st">&quot;sepal_width&quot;</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span>
-  <span class="st">&quot;petal_length&quot;</span><span class="op">:</span> <span class="fl">1.4</span><span class="op">,</span>
-  <span class="st">&quot;petal_width&quot;</span><span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span>
-  <span class="st">&quot;species&quot;</span><span class="op">:</span> <span class="st">&quot;setosa&quot;</span>
-<span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="op">{</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="st">&quot;sepal_length&quot;</span><span class="op">:</span> <span class="fl">5.1</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">&quot;sepal_width&quot;</span><span class="op">:</span> <span class="fl">3.5</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="st">&quot;petal_length&quot;</span><span class="op">:</span> <span class="fl">1.4</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="st">&quot;petal_width&quot;</span><span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="st">&quot;species&quot;</span><span class="op">:</span> <span class="st">&quot;setosa&quot;</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="op">}</span></a></code></pre></div>
 <p>Documents are classified into ‘types’ and stored in an ‘index’. In a crude analogy with traditional SQL databases that is often used, we would associate an index with a database instance and the document types as tables within that database. In practice this example is not accurate - it is better to think of all documents as residing in a single - possibly sparse - table (defined by the index), where the document types represent non-unique sub-sets of columns in the table. This is especially so as fields that occur in multiple document types (within the same index), must have the same data-type - for example, if <code>&quot;name&quot;</code> exists in document type <code>customer</code> as well as in document type <code>address</code>, then <code>&quot;name&quot;</code> will need to be a <code>string</code> in both. Note, that ‘types’ are being slowly phased-out and in Elasticsearch v7.x there will only be indices.</p>
 <p>Each document is considered a ‘resource’ that has a Uniform Resource Locator (URL) associated with it. Elasticsearch URLs all have the following format: <code>http://your_cluster:9200/your_index/your_doc_type/your_doc_id</code>. For example, the above <code>iris</code> document could be living at <code>http://localhost:9200/iris/data/1</code> - you could even point a web browser to this location and investigate the document’s contents.</p>
 <p>Although Elasticsearch - like most NoSQL databases - is often referred to as being ‘schema free’, as we have already see this is not entirely correct. What is true, however, is that the schema - or ‘mapping’ as it’s called in Elasticsearch - does not <em>need</em> to be declared up-front (although you certainly can do this). Elasticsearch is more than capable of guessing the types of fields based on new data indexed for the first time.</p>
-<p>For more information on any of these basic concepts take a look <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html" title="Basic Concepts">here</a></p>
+<p>For more information on any of these basic concepts take a look <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html" title="Basic Concepts">here</a></p>
 </div>
 <div id="elasticsearchr-a-quick-start" class="section level2">
 <h2><code>elasticsearchr</code>: a Quick Start</h2>
@@ -124,153 +332,153 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="elasticsearch-data-resources" class="section level3">
 <h3>Elasticsearch Data Resources</h3>
 <p>Elasticsearch resources, as defined by the URLs described above, are defined as <code>elastic</code> objects in <code>elasticsearchr</code>. For example,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">es &lt;-<span class="st"> </span><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">es &lt;-<span class="st"> </span><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
 <p>Refers to documents of type ‘data’ in the ‘iris’ index located on an Elasticsearch node on my laptop. Note that: - it is possible to leave the document type empty if you need to refer to all documents in an index; and, - <code>elastic</code> objects can be defined even if the underling resources have yet to be brought into existence.</p>
 </div>
 <div id="indexing-new-data" class="section level3">
 <h3>Indexing New Data</h3>
 <p>To index (insert) data from a data frame, use the <code>%index%</code> operator as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%index%</span><span class="st"> </span>iris</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%index%</span><span class="st"> </span>iris</a></code></pre></div>
 <p>In this example, the <code>iris</code> dataset is indexed into the ‘iris’ index and given a document type called ‘data’. Note that I have not provided any document ids here. <strong>To explicitly specify document ids there must be a column in the data frame that is labelled <code>id</code></strong>, from which the document ids will be taken.</p>
 </div>
 <div id="deleting-data" class="section level3">
 <h3>Deleting Data</h3>
 <p>Documents can be deleted in three different ways using the <code>%delete%</code> operator. Firstly, an entire index (including the mapping information) can be erased by referencing just the index in the resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></a></code></pre></div>
 <p>Alternatively, documents can be deleted on a type-by-type basis leaving the index and it’s mappings untouched, by referencing both the index and the document type as the resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="ot">TRUE</span></a></code></pre></div>
 <p>Finally, specific documents can be deleted by referencing their ids directly - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%delete%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>)</a></code></pre></div>
 </div>
 <div id="queries" class="section level3">
 <h3>Queries</h3>
 <p>Any type of query that Elasticsearch makes available can be defined in a <code>query</code> object using the native Elasticsearch JSON syntax - e.g. to match every document we could use the <code>match_all</code> query,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for_everything &lt;-<span class="st"> </span><span class="kw">query</span>(<span class="st">'{</span>
-<span class="st">  &quot;match_all&quot;: {}</span>
-<span class="st">}'</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">for_everything &lt;-<span class="st"> </span><span class="kw">query</span>(<span class="st">'{</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  &quot;match_all&quot;: {}</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">}'</span>)</a></code></pre></div>
 <p>To execute this query we use the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>for_everything
-
-<span class="co">#     sepal_length sepal_width petal_length petal_width    species</span>
-<span class="co"># 1            4.9         3.0          1.4         0.2     setosa</span>
-<span class="co"># 2            4.9         3.1          1.5         0.1     setosa</span>
-<span class="co"># 3            5.8         4.0          1.2         0.2     setosa</span>
-<span class="co"># 4            5.4         3.9          1.3         0.4     setosa</span>
-<span class="co"># 5            5.1         3.5          1.4         0.3     setosa</span>
-<span class="co"># 6            5.4         3.4          1.7         0.2     setosa</span>
-<span class="co"># ...</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>for_everything</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#     sepal_length sepal_width petal_length petal_width    species</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># 1            4.9         3.0          1.4         0.2     setosa</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># 2            4.9         3.1          1.5         0.1     setosa</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co"># 3            5.8         4.0          1.2         0.2     setosa</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># 4            5.4         3.9          1.3         0.4     setosa</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co"># 5            5.1         3.5          1.4         0.3     setosa</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co"># 6            5.4         3.4          1.7         0.2     setosa</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co"># ...</span></a></code></pre></div>
 <div id="selecting-a-subset-of-fields-to-return" class="section level4">
 <h4>Selecting a Subset of Fields to Return</h4>
 <p>Sometimes only subset of all the available fields need to be returned, so it is much more efficient for Elasticsearch only to return the required data as opposed to all of it. This can be achieved as follows,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">selected_fields &lt;-<span class="st"> </span><span class="kw">select_fields</span>(<span class="st">'{</span>
-<span class="st">  &quot;includes&quot;: [&quot;sepal_length&quot;, &quot;species&quot;]</span>
-<span class="st">}'</span>)
-
-<span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>selected_fields)
-
-<span class="co">#        species sepal_length</span>
-<span class="co"># 1       setosa          4.3</span>
-<span class="co"># 2       setosa          5.7</span>
-<span class="co"># 3       setosa          5.1</span>
-<span class="co"># 4       setosa          5.1</span>
-<span class="co"># 5       setosa          4.8</span>
-<span class="co"># 6       setosa          5.0</span></code></pre></div>
-<p>The selected fields are defined using Elasticsearch’s <a href="https://www.elastic.co/guide/en/elasticsearch/reference/master/search-request-source-filtering.html" title="Source Filters">source filtering API</a>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">selected_fields &lt;-<span class="st"> </span><span class="kw">select_fields</span>(<span class="st">'{</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  &quot;includes&quot;: [&quot;sepal_length&quot;, &quot;species&quot;]</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">}'</span>)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>selected_fields)</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#        species sepal_length</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co"># 1       setosa          4.3</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co"># 2       setosa          5.7</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co"># 3       setosa          5.1</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co"># 4       setosa          5.1</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co"># 5       setosa          4.8</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co"># 6       setosa          5.0</span></a></code></pre></div>
+<p>The selected fields are defined using Elasticsearch’s <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-source-filtering.html" title="Source Filters">source filtering API</a>.</p>
 </div>
 <div id="sorting-query-results" class="section level4">
 <h4>Sorting Query Results</h4>
 <p>Query results can be sorted on multiple fields by defining a <code>sort</code> object using the same Elasticsearch JSON syntax - e.g. to sort by <code>sepal_width</code> in ascending order the required <code>sort</code> object would be defined as,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_sepal_width &lt;-<span class="st"> </span><span class="kw">sort_on</span>(<span class="st">'{&quot;sepal_width&quot;: {&quot;order&quot;: &quot;asc&quot;}}'</span>)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">by_sepal_width &lt;-<span class="st"> </span><span class="kw">sort_on</span>(<span class="st">'{&quot;sepal_width&quot;: {&quot;order&quot;: &quot;asc&quot;}}'</span>)</a></code></pre></div>
 <p>This is then added to a <code>query</code> object whose results we want sorted and executed using the <code>%search%</code> operator as before - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>by_sepal_width)
-
-<span class="co">#   sepal_length sepal_width petal_length petal_width    species</span>
-<span class="co"># 1          5.0         2.0          3.5         1.0 versicolor</span>
-<span class="co"># 2          6.0         2.2          5.0         1.5  virginica</span>
-<span class="co"># 3          6.0         2.2          4.0         1.0 versicolor</span>
-<span class="co"># 4          6.2         2.2          4.5         1.5 versicolor</span>
-<span class="co"># 5          4.5         2.3          1.3         0.3     setosa</span>
-<span class="co"># 6          6.3         2.3          4.4         1.3 versicolor</span>
-<span class="co"># ...</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>by_sepal_width)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#   sepal_length sepal_width petal_length petal_width    species</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co"># 1          5.0         2.0          3.5         1.0 versicolor</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co"># 2          6.0         2.2          5.0         1.5  virginica</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co"># 3          6.0         2.2          4.0         1.0 versicolor</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co"># 4          6.2         2.2          4.5         1.5 versicolor</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co"># 5          4.5         2.3          1.3         0.3     setosa</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co"># 6          6.3         2.3          4.4         1.3 versicolor</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co"># ...</span></a></code></pre></div>
 </div>
 </div>
 <div id="aggregations" class="section level3">
 <h3>Aggregations</h3>
 <p>Similarly, any type of aggregation that Elasticsearch makes available can be defined in an <code>aggs</code> object - e.g. to compute the average <code>sepal_width</code> per-species of flower we would specify the following aggregation,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">avg_sepal_width &lt;-<span class="st"> </span><span class="kw">aggs</span>(<span class="st">'{</span>
-<span class="st">  &quot;avg_sepal_width_per_species&quot;: {</span>
-<span class="st">    &quot;terms&quot;: {</span>
-<span class="st">      &quot;field&quot;: &quot;species&quot;,</span>
-<span class="st">      &quot;size&quot;: 3</span>
-<span class="st">    },</span>
-<span class="st">    &quot;aggs&quot;: {</span>
-<span class="st">      &quot;avg_sepal_width&quot;: {</span>
-<span class="st">        &quot;avg&quot;: {</span>
-<span class="st">          &quot;field&quot;: &quot;sepal_width&quot;</span>
-<span class="st">        }</span>
-<span class="st">      }</span>
-<span class="st">    }</span>
-<span class="st">  }</span>
-<span class="st">}'</span>)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">avg_sepal_width &lt;-<span class="st"> </span><span class="kw">aggs</span>(<span class="st">'{</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  &quot;avg_sepal_width_per_species&quot;: {</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    &quot;terms&quot;: {</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">      &quot;field&quot;: &quot;species&quot;,</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="st">      &quot;size&quot;: 3</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="st">    },</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="st">    &quot;aggs&quot;: {</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="st">      &quot;avg_sepal_width&quot;: {</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="st">        &quot;avg&quot;: {</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="st">          &quot;field&quot;: &quot;sepal_width&quot;</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="st">        }</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="st">      }</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="st">    }</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="st">  }</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="st">}'</span>)</a></code></pre></div>
 <p><em>(Elasticsearch 5.x and 6.x users please note that when using the out-of-the-box mappings the above aggregation requires that <code>&quot;field&quot;: &quot;species&quot;</code> be changed to <code>&quot;field&quot;: &quot;species.keyword&quot;</code> - see <a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.0/breaking_50_mapping_changes.html" title="Text fields in Elasticsearch 5.x">here</a> for more information as to why)</em></p>
 <p>This aggregation is also executed via the <code>%search%</code> operator on the appropriate resource - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>avg_sepal_width
-
-<span class="co">#          key doc_count avg_sepal_width.value</span>
-<span class="co"># 1     setosa        50                 3.428</span>
-<span class="co"># 2 versicolor        50                 2.770</span>
-<span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>avg_sepal_width</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#          key doc_count avg_sepal_width.value</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co"># 1     setosa        50                 3.428</span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co"># 2 versicolor        50                 2.770</span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co"># 3  virginica        50                 2.974</span></a></code></pre></div>
 <p>Queries and aggregations can be combined such that the aggregations are computed on the results of the query. For example, to execute the combination of the above query and aggregation, we would execute,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)
-
-<span class="co">#          key doc_count avg_sepal_width.value</span>
-<span class="co"># 1     setosa        50                 3.428</span>
-<span class="co"># 2 versicolor        50                 2.770</span>
-<span class="co"># 3  virginica        50                 2.974</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>, <span class="st">&quot;data&quot;</span>) <span class="op">%search%</span><span class="st"> </span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#          key doc_count avg_sepal_width.value</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co"># 1     setosa        50                 3.428</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co"># 2 versicolor        50                 2.770</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co"># 3  virginica        50                 2.974</span></a></code></pre></div>
 <p>where the combination yields,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)
-
-<span class="co"># {</span>
-<span class="co">#     &quot;size&quot;: 0,</span>
-<span class="co">#     &quot;query&quot;: {</span>
-<span class="co">#         &quot;match_all&quot;: {</span>
-<span class="co">#</span>
-<span class="co">#         }</span>
-<span class="co">#     },</span>
-<span class="co">#     &quot;aggs&quot;: {</span>
-<span class="co">#         &quot;avg_sepal_width_per_species&quot;: {</span>
-<span class="co">#             &quot;terms&quot;: {</span>
-<span class="co">#                 &quot;field&quot;: &quot;species&quot;,</span>
-<span class="co">#                 &quot;size&quot;: 0</span>
-<span class="co">#             },</span>
-<span class="co">#             &quot;aggs&quot;: {</span>
-<span class="co">#                 &quot;avg_sepal_width&quot;: {</span>
-<span class="co">#                     &quot;avg&quot;: {</span>
-<span class="co">#                         &quot;field&quot;: &quot;sepal_width&quot;</span>
-<span class="co">#                     }</span>
-<span class="co">#                 }</span>
-<span class="co">#             }</span>
-<span class="co">#         }</span>
-<span class="co">#     }</span>
-<span class="co"># }</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">print</span>(for_everything <span class="op">+</span><span class="st"> </span>avg_sepal_width)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co"># {</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#     &quot;size&quot;: 0,</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#     &quot;query&quot;: {</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#         &quot;match_all&quot;: {</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#         }</span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#     },</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#     &quot;aggs&quot;: {</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#         &quot;avg_sepal_width_per_species&quot;: {</span></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#             &quot;terms&quot;: {</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#                 &quot;field&quot;: &quot;species&quot;,</span></a>
+<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#                 &quot;size&quot;: 0</span></a>
+<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#             },</span></a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#             &quot;aggs&quot;: {</span></a>
+<a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#                 &quot;avg_sepal_width&quot;: {</span></a>
+<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#                     &quot;avg&quot;: {</span></a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#                         &quot;field&quot;: &quot;sepal_width&quot;</span></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#                     }</span></a>
+<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#                 }</span></a>
+<a class="sourceLine" id="cb19-22" data-line-number="22"><span class="co">#             }</span></a>
+<a class="sourceLine" id="cb19-23" data-line-number="23"><span class="co">#         }</span></a>
+<a class="sourceLine" id="cb19-24" data-line-number="24"><span class="co">#     }</span></a>
+<a class="sourceLine" id="cb19-25" data-line-number="25"><span class="co"># }</span></a></code></pre></div>
 <p>For comprehensive coverage of all query and aggregations types please refer to the rather excellent <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" title="Elasticsearch documentation">official documentation</a> (newcomers to Elasticsearch are advised to start with the ‘Query String’ query).</p>
 </div>
 <div id="mappings" class="section level3">
 <h3>Mappings</h3>
 <p>We have also included the ability to create an empty index with a custom mapping, using the <code>%create%</code> operator - e.g.,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%create%</span><span class="st"> </span><span class="kw">mapping_default_simple</span>()</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%create%</span><span class="st"> </span><span class="kw">mapping_default_simple</span>()</a></code></pre></div>
 <p>Where in this instance <code>mapping_default_simple()</code> is a default mapping that I have shipped with <code>elasticsearchr</code>. It switches-off the text analyser for all fields of type ‘string’ (i.e. switches off free text search), allows all text search to work with case-insensitive lower-case terms, and maps any field with the name ‘timestamp’ to type ‘date’, so long as it has the appropriate string or long format.</p>
 </div>
 <div id="cluster-and-index-information" class="section level3">
 <h3>Cluster and Index Information</h3>
 <p>We have also added the ability to retrieve basic information from the cluster, using the <code>%info%</code> operator. For example, to retrieve a list of all avaliable indices in the cluster,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;*&quot;</span>) <span class="op">%info%</span><span class="st"> </span><span class="kw">list_indices</span>()
- 
-<span class="co"># [1] &quot;iris&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;*&quot;</span>) <span class="op">%info%</span><span class="st"> </span><span class="kw">list_indices</span>()</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"> </a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co"># [1] &quot;iris&quot;</span></a></code></pre></div>
 <p>Or to list all of the available fields in an index,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%info%</span><span class="st"> </span><span class="kw">list_fields</span>()
-
-<span class="co"># [1] &quot;petal_length&quot; &quot;petal_width&quot; &quot;sepal_length&quot; &quot;sepal_width&quot; &quot;species&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">elastic</span>(<span class="st">&quot;http://localhost:9200&quot;</span>, <span class="st">&quot;iris&quot;</span>) <span class="op">%info%</span><span class="st"> </span><span class="kw">list_fields</span>()</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co"># [1] &quot;petal_length&quot; &quot;petal_width&quot; &quot;sepal_length&quot; &quot;sepal_width&quot; &quot;species&quot;</span></a></code></pre></div>
 </div>
 </div>
 <div id="acknowledgements" class="section level2">

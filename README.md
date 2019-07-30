@@ -1,7 +1,7 @@
 <!-- [![codecov](https://codecov.io/github/alexioannides/elasticsearchr/branch/master/graphs/badge.svg)](https://codecov.io/github/alexioannides/elasticsearchr) -->
 [![Build Status](https://travis-ci.org/AlexIoannides/elasticsearchr.svg?branch=master)](https://travis-ci.org/AlexIoannides/elasticsearchr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/AlexIoannides/elasticsearchr?branch=master&svg=true)](https://ci.appveyor.com/project/AlexIoannides/elasticsearchr) [![cran version](http://www.r-pkg.org/badges/version/elasticsearchr)](https://cran.r-project.org/package=elasticsearchr) [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/elasticsearchr)](https://github.com/metacran/cranlogs.app)
 
-- built and tested using Elasticsearch v2.x, v5.x, v6.x.
+- built and tested using Elasticsearch v2.x, v5.x, v6.x and v7.x.
 
 ![][esr_img]
 
@@ -333,8 +333,8 @@ A big thank you to Hadley Wickham and Jeroen Ooms, the authors of the `httr` and
 
 [json]: https://en.wikipedia.org/wiki/JSON "JSON"
 
-[basic_concepts]: https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html "Basic Concepts"
+[basic_concepts]: https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html "Basic Concepts"
 
-[source_filtering]: https://www.elastic.co/guide/en/elasticsearch/reference/master/search-request-source-filtering.html "Source Filters"
+[source_filtering]: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-source-filtering.html "Source Filters"
 
 [es_five_mappings]: https://www.elastic.co/guide/en/elasticsearch/reference/5.0/breaking_50_mapping_changes.html "Text fields in Elasticsearch 5.x"
